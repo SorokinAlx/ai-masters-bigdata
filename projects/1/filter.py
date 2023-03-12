@@ -7,7 +7,8 @@ import logging
 
 sys.path.append('.')
 from model import fields
-fields=fields.remove("label")
+fields.remove("label")
+
 #
 # Init the logger
 #
@@ -15,7 +16,7 @@ logging.basicConfig(level=logging.DEBUG)
 logging.info("CURRENT_DIR {}".format(os.getcwd()))
 logging.info("SCRIPT CALLED AS {}".format(sys.argv[0]))
 logging.info("ARGS {}".format(sys.argv[1:]))
-
+logging.info("LABELS {}".format(fields))
 #
 # import the filter
 #
@@ -65,12 +66,13 @@ for line in sys.stdin:
         continue
 
     #unpack into a tuple/dict
-    values = line.rstrip().split(',')
+    values = line.rstrip().split('\t')
     hotel_record = dict(zip(fields, values)) #Hotel(values)
+    #logging.info("LABELS {}".format(hotel_record))
 
     #apply filter conditions
     if filter_cond(hotel_record):
-        output = ",".join([hotel_record[x] for x in outfields])
+        output = "\t".join([hotel_record[x] for x in outfields])
         print(output)
 
 
