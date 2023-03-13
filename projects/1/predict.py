@@ -31,4 +31,4 @@ read_opts=dict(
 for df in pd.read_csv(sys.stdin, **read_opts):
     pred = model.predict_proba(df.iloc[:,:13])[:,1]
     out = zip(df.index, pred)
-    print("\n".join(["{0},{1}".format(*i) for i in out]))
+    print("\n".join(["{0}\t{1}".format(*i) for i in out]))
