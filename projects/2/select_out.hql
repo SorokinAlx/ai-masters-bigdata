@@ -1,0 +1,3 @@
+INSERT OVERWRITE DIRECTORY 'SorokinAlx_hiveout' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+SELECT id, predicted from hw2_pred;

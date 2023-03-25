@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS hw2_pred(
+id int,
+predicted double
+) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' STORED AS TEXTFILE
+ LOCATION 'SorokinAlx_hw2_pred';
