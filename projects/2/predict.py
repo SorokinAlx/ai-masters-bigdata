@@ -16,7 +16,7 @@ logging.info("DONEDOENDOENDOENEODNEOENEDODNEONO")
 #logging.info("CURRENT_DIR {}".format(os.getcwd()))
 
 #load the model
-model = load("2.joblib")
+model = load("1.joblib")
 
 #fields = """doc_id,hotel_name,hotel_url,street,city,state,country,zip,class,price,
 #num_reviews,CLEANLINESS,ROOM,SERVICE,LOCATION,VALUE,COMFORT,overall_ratingsource""".replace("\n",'').split(",")
