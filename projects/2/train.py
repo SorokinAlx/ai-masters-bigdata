@@ -35,7 +35,7 @@ except:
 
 logging.info(f"TRAIN_ID {proj_id}")
 logging.info(f"TRAIN_PATH {train_path}")
-
+dump(model, "{}.joblib".format(proj_id))
 #
 # Read dataset
 #
