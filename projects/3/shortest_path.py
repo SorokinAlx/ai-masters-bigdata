@@ -16,6 +16,7 @@ from pyspark.sql import SparkSession
 
 conf = SparkConf()
 
+sc = SparkContext(appName="PageRank", conf=conf)
 spark = SparkSession.builder.config(conf=conf).appName("PageRank_alsor").getOrCreate()
 
 from pyspark.sql.types import *
@@ -59,8 +60,7 @@ stop = int(sys.argv[2])
 res = bf_search(df, start, stop)
 
 res = [stop] + res + [start]
-
-print(res[::-1])
-
-df_res = spark.createDataFrame(data=res[::-1])
-df_res.write.csv("SorokinAlx_hw3_output", sep=',')
+res = res[::-1]
+res = ','.join(str(d) for d in res)
+res = sc.parallelize(res)
+res.saveAsTextFile(sys.argv[4])
