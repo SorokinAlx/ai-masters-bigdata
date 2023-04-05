@@ -63,4 +63,4 @@ res = [stop] + res + [start]
 print(res[::-1])
 
 df_res = spark.createDataFrame(data=res[::-1])
-df_res.write.csv(sys.argv[4], sep=',')
+df_res.write.csv("SorokinAlx_hw3_output", sep=',')
