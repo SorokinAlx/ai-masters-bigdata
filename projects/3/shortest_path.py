@@ -36,31 +36,41 @@ def bf_search(df, start, stop):
     parents = {}
     cur_el = start
     success = 0
-    queue.append(cur_el)
+    queue.append((start,0))
+    stop_crit = -1
     while queue:
-        cur_el = queue.pop(0)
+        cur_el, level = queue.pop(0)
         children = df.filter(df.follower_id == cur_el).select(df.user_id).rdd.flatMap(lambda x: x).collect()
-        if stop in children:
-            success = 1
+        if stop in children and stop_crit==-1:
+            stop_crit = level
+        if stop_crit > -1 and  level > stop_crit:
             break
         for el in children:
-            if parents.get(el, -1) == -1:
-                parents[el] = cur_el
-                queue.append(el)
-    if (success == 1):
-        res = []
-        while cur_el != start:
-            res.append(cur_el)
-            cur_el = parents[cur_el]
-    return res
+            if parents.get(el, [(1000,1000)])[0][1] >= level:
+                if parents.get(el, [(-1,-5)])[0][1] == -5:
+                    parents[el] = [(cur_el, level)]
+                    queue.append((el,level+1))
+                else:
+                    parents[el].append((cur_el, level))
+    return parents
+
+def get_res(current, target, parents):
+    if current == target:
+        return [[target]]
+    lst = []
+    for parent in parents[current]:
+        cur = get_res(parent[0],target, parents)
+        lst.extend(cur)
+    for el in lst:
+        el.append(current)
+    return lst
 
 start = int(sys.argv[1])
 stop = int(sys.argv[2])
 
-res = bf_search(df, start, stop)
+parents = bf_search(df, start, stop)
 
-res = [stop] + res + [start]
-res = res[::-1]
-res = ','.join(str(d) for d in res)
-res = sc.parallelize([res])
-res.saveAsTextFile(sys.argv[4])
+res = get_res(stop, start, parents)
+
+result = spark.createDataFrame(res1)
+result.write.csv(sys.argv[4], sep=',')
