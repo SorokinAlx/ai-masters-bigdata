@@ -62,5 +62,5 @@ res = bf_search(df, start, stop)
 res = [stop] + res + [start]
 res = res[::-1]
 res = ','.join(str(d) for d in res)
-res = sc.parallelize(res)
+res = sc.parallelize([res])
 res.saveAsTextFile(sys.argv[4])
