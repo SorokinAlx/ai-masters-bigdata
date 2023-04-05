@@ -72,5 +72,5 @@ parents = bf_search(df, start, stop)
 
 res = get_res(stop, start, parents)
 
-result = spark.createDataFrame(res1)
+result = spark.createDataFrame(res)
 result.write.csv(sys.argv[4], sep=',')
