@@ -37,7 +37,7 @@ schema = StructType(fields=[
     StructField("unixReviewTime", TimestampType())])
 
 
-df = spark.read.schema(schema).format("json").load("/datasets/amazon/all_reviews_5_core_train_small.json")
+df = spark.read.schema(schema).format("json").load(sys.argv[1])
 df = df.withColumn("vote", df["vote"].cast(IntegerType()))
 df = df.withColumn("verified", f.when(f.col("verified"), f.lit(1)).otherwise(0))
 
