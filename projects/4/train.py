@@ -17,12 +17,12 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 
 conf = SparkConf()
-
 sc = SparkContext(appName="SparkML", conf=conf)
 
 spark = SparkSession.builder.config(conf=conf).appName("SparkML_hw").getOrCreate()
 
 from model import pipeline
+import pyspark.sql.functions as f
 
 schema = StructType(fields=[
     StructField("overall", FloatType()),
@@ -37,7 +37,7 @@ schema = StructType(fields=[
     StructField("unixReviewTime", TimestampType())])
 
 
-df = spark.read.schema(schema).format("json").load(sys.argv[1])
+df = spark.read.schema(schema).format("json").load("/datasets/amazon/all_reviews_5_core_train_small.json")
 df = df.withColumn("vote", df["vote"].cast(IntegerType()))
 df = df.withColumn("verified", f.when(f.col("verified"), f.lit(1)).otherwise(0))
 
