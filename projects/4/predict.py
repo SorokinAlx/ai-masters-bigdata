@@ -26,9 +26,9 @@ schema = StructType(fields=[
     StructField("summary", StringType()),
     StructField("unixReviewTime", TimestampType())])
 
-df = spark.read.schema(schema).format("json").load(sys.argv[2])
-df = df.fillna({"verified" : True}, {"reviewText" : "missingreview"})
-df = df.withColumn("verified", f.when(f.col("verified"), f.lit(1)).otherwise(0))
+df = spark.read.schema(schema).format("json").load(sys.argv[2]).fillna( {"reviewText": "missingreview"})
 
 pred = model.transform(df)
-pred.write.json(sys.argv[3])
+pred.select("id","prediction").write.save(sys.argv[3])
+
+spark.stop()

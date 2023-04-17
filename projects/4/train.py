@@ -12,12 +12,11 @@ PYSPARK_HOME = os.path.join(SPARK_HOME, "python/lib")
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "py4j-0.10.9.3-src.zip"))
 sys.path.insert(0, os.path.join(PYSPARK_HOME, "pyspark.zip"))
 
-from pyspark import SparkConf, SparkContext
+from pyspark import SparkConf
 from pyspark.sql import SparkSession
 from pyspark.sql.types import *
 
 conf = SparkConf()
-sc = SparkContext(appName="SparkML", conf=conf)
 
 spark = SparkSession.builder.config(conf=conf).appName("SparkML_hw").getOrCreate()
 
@@ -37,9 +36,9 @@ schema = StructType(fields=[
     StructField("unixReviewTime", TimestampType())])
 
 
-df = spark.read.schema(schema).format("json").load(sys.argv[1])
-df = df.fillna({"verified" : True}, {"reviewText" : "missingreview"})
-df = df.withColumn("verified", f.when(f.col("verified"), f.lit(1)).otherwise(0))
+df = spark.read.schema(schema).format("json").load(sys.argv[1]).fillna( {"reviewText": "missingreview"})
 
 mdl = pipeline.fit(df)
 mdl.write().overwrite().save(sys.argv[2])
+
+spark.stop()
