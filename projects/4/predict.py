@@ -3,10 +3,11 @@
 import os
 import sys
 
+from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
-spark = SparkSession.builder.getOrCreate()
-spark.sparkContext.setLogLevel('WARN')
+conf = SparkConf()
+spark = SparkSession.builder.config(conf=conf).appName("SparkML_hw").getOrCreate()
 
 from pyspark.ml import Pipeline, PipelineModel
 

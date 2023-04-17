@@ -6,7 +6,7 @@ from pyspark.ml import Pipeline
 
 tokenizer = Tokenizer(inputCol="reviewText", outputCol="words")
 stop_words = StopWordsRemover(inputCol="words",outputCol="words_without_stop", stopWords=StopWordsRemover.loadDefaultStopWords("english"))
-hasher = HashingTF(numFeatures=200, binary=True, inputCol="words_without_stop", outputCol="words_hashed")
+hasher = HashingTF(numFeatures=50, binary=True, inputCol="words_without_stop", outputCol="words_hashed")
 assembler = VectorAssembler(inputCols=['words_hashed', 'verified'], outputCol="words_final")
 log_reg = LinearRegression(featuresCol="words_final", labelCol="overall", maxIter=10)
 
