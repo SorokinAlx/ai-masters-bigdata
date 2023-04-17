@@ -8,6 +8,7 @@ from pyspark.sql import SparkSession
 
 conf = SparkConf()
 spark = SparkSession.builder.config(conf=conf).appName("SparkML_hw").getOrCreate()
+spark.sparkContext.setLogLevel('INFO')
 
 from pyspark.ml import Pipeline, PipelineModel
 
