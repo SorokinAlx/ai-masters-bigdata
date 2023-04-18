@@ -37,8 +37,6 @@ schema = StructType(fields=[
 
 
 df = spark.read.schema(schema).format("json").load(sys.argv[1]).fillna( {"reviewText": "missingreview"})
-df = df.fillna({"verified" : True})
-df = df.withColumn("verified", f.when(f.col("verified"), f.lit(1)).otherwise(0))
 
 mdl = pipeline.fit(df)
 mdl.write().overwrite().save(sys.argv[2])
