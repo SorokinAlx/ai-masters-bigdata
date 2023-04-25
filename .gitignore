@@ -2,4 +2,5 @@
 *.crc
 /*csv
 __pycache__
-
+mlruns
+*.sqlite
