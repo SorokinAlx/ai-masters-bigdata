@@ -17,11 +17,14 @@ fields = ["id", "label"] + numeric_features + categorical_features
 #
 # Model pipeline
 #
+
 class ColumnDropperTransformer(categorical_features):
-    def __init__(self,categorical_features):
-        self.columns=categorical_features
-    def transform(self,X,y=None):
-        return X.drop(self.columns,axis=1)
+    def __init__(self, categorical_features):
+        self.columns = categorical_features
+        
+    def transform(self, X, y=None):
+        return X.drop(self.columns, axis=1)
+    
     def fit(self, X, y=None):
         return self 
 
