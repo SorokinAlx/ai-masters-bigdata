@@ -57,9 +57,9 @@ if __name__ == "__main__":
     with mlflow.start_run():
         model.set_params(logregression__C=float(model_param1))
         #mlflow.log_param("model_param1", float(model_param1))
-        mlflow.sklearn.log_model(model, artifact_path="tr")
         model.fit(X_train, y_train)
-        y_pred = model.predict_proba(X_test)[:,1]
+        mlflow.sklearn.log_model(model, artifact_path="tr")
+        y_pred = model.predict(X_test)
         model_score = log_loss(y_test, y_pred)
         mlflow.log_metric("log_loss", model_score)
 
