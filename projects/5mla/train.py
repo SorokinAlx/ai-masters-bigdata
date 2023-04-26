@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     #split train/test
     X_train, X_test, y_train, y_test = train_test_split(
-        df.iloc[:,1:14], df.iloc[:,0], test_size=0.33, random_state=42
+        df.iloc[:,1:], df.iloc[:,0], test_size=0.33, random_state=42
     )
 
     #
