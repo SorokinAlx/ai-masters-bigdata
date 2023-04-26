@@ -40,8 +40,8 @@ preprocessor = ColumnTransformer(
 dropper = ColumnDropperTransformer(categorical_features)
 # Now we have a full prediction pipeline.
 model = Pipeline(steps=[
-    ('preprocessor', preprocessor),
     ('dropper', dropper),
+    ('preprocessor', preprocessor),
     ('logregression', LogisticRegression())
 ])
 
