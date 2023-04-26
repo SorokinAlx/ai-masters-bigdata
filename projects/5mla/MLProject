@@ -1,0 +1,8 @@
+name: fifth_task_log_reg
+conda_env: conda.yaml
+entry_points:
+  main:
+    parameters:
+      train_path: {type:string, default:None}
+      model_param1: {type: float, default: 1.0}
+    command: "python train.py {train_path} {model_param1}"
