@@ -18,7 +18,7 @@ with DAG(
     catchup=False
     ) as dag:
     
-    feature_eng_train_task = SparkSubmitOperator(
+    feature_eng_task = SparkSubmitOperator(
        task_id = "feature_eng_train_task",
        spark_binary = "/usr/bin/spark3-submit",
        application=f"{base_dir}feature_eng.py",
@@ -36,12 +36,12 @@ with DAG(
        bash_command=f'{"/opt/conda/envs/dsenv/bin/python"} {os.path.join(base_dir, "train.py")} --train-in {os.path.join(base_dir, "SorokinAlx_train_out_local")} --sklearn-model-out {os.path.join(base_dir, "6.joblib")}',
     )
     
-    model_sensor = FileSensor(task_id= "model_sensor", filepath= f"{base_dir}/6.joblib")
+    model_sensor = FileSensor(task_id= "model_sensor", filepath= f"{base_dir}6.joblib")
     
     feature_eng_task_test = SparkSubmitOperator(
        task_id="feature_eng_test_task",
        spark_binary="/usr/bin/spark3-submit",
-       application=f"{base_dir}preprocess.py"),
+       application=f"{base_dir}feature_eng.py",
        application_args = ['--path-in', '/datasets/amazon/all_reviews_5_core_test_extra_small_features.json', '--path-out', 'SorokinAlx_test_out'],
        env_vars={"PYSPARK_PYTHON": '/opt/conda/envs/dsenv/bin/python'}
     )
