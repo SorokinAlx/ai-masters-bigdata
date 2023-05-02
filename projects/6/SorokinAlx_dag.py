@@ -20,7 +20,7 @@ with DAG(
     
     feature_eng_task = SparkSubmitOperator(
        task_id = "feature_eng_train_task",
-       spark_binary = "/usr/bin/spark3-submit",
+       spark_binary = "/usr/bin/spark-submit",
        application=f"{base_dir}feature_eng.py",
        application_args = ["--path-in", '/datasets/amazon/all_reviews_5_core_train_extra_small_sentiment.json', "--path-out",  'SorokinAlx_train_out'],
        env_vars={"PYSPARK_PYTHON": '/opt/conda/envs/dsenv/bin/python'}
@@ -40,7 +40,7 @@ with DAG(
     
     feature_eng_task_test = SparkSubmitOperator(
        task_id="feature_eng_test_task",
-       spark_binary="/usr/bin/spark3-submit",
+       spark_binary="/usr/bin/spark-submit",
        application=f"{base_dir}feature_eng.py",
        application_args = ['--path-in', '/datasets/amazon/all_reviews_5_core_test_extra_small_features.json', '--path-out', 'SorokinAlx_test_out'],
        env_vars={"PYSPARK_PYTHON": '/opt/conda/envs/dsenv/bin/python'}
@@ -48,7 +48,7 @@ with DAG(
 
     predict_task = SparkSubmitOperator(
        task_id="predict_task",
-       spark_binary="/usr/bin/spark3-submit",
+       spark_binary="/usr/bin/spark-submit",
        application=f"{base_dir}predict.py",
        application_args = ['--test-in', 'SorokinAlx_test_out', '--pred-out', 'SorokinAlx_hw6_prediction', '--sklearn-model-in', f"{base_dir}6.joblib"],
        env_vars={"PYSPARK_PYTHON": '/opt/conda/envs/dsenv/bin/python'}
