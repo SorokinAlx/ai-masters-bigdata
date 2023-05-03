@@ -54,6 +54,5 @@ schema = StructType(fields=[
 df = spark.read.schema(schema).format("json").load(sys.argv[2]).fillna({"reviewText": "missingreview"})
 
 mdl = pipeline.fit(df)
-mdl.write().overwrite().save(sys.argv[4])
-
+mdl.write.mode("overwrite").json(sys.argv[4])
 spark.stop()
