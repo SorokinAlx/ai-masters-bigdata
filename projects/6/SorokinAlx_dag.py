@@ -50,7 +50,7 @@ with DAG(
        task_id="predict_task",
        spark_binary="/usr/bin/spark3-submit",
        application=f"{base_dir}/predict.py",
-       application_args = ['--test-in', 'SorokinAlx_test_out', '--pred-out', 'SorokinAlx_hw6_prediction', '--sklearn-model-in', f"{base_dir}6.joblib"],
+       application_args = ['--test-in', 'SorokinAlx_test_out', '--pred-out', 'SorokinAlx_hw6_prediction', '--sklearn-model-in', f"{base_dir}/6.joblib"],
        env_vars={"PYSPARK_PYTHON": '/opt/conda/envs/dsenv/bin/python'}
     ) 
     
