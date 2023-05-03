@@ -36,7 +36,7 @@ with DAG(
        bash_command=f'{"/opt/conda/envs/dsenv/bin/python"} {os.path.join(base_dir, "train.py")} --train-in {os.path.join(base_dir, "SorokinAlx_train_out_local")} --sklearn-model-out {os.path.join(base_dir, "6.joblib")}',
     )
     
-    model_sensor = FileSensor(task_id= "model_sensor", filepath= f"{base_dir}6.joblib")
+    model_sensor = FileSensor(task_id= "model_sensor", filepath= f"{base_dir}/6.joblib")
     
     feature_eng_task_test = SparkSubmitOperator(
        task_id="feature_eng_test_task",
