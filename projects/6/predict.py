@@ -56,7 +56,7 @@ schema = StructType([
     StructField("words_final", VectorUDT())
 ])
 
-
+df = df.withColumn("id",f.monotonically_increasing_id())
 df = spark.read.json(sys.argv[2], schema=schema)
 
 df = df.withColumn('label_pred', predict(vector_to_array('words_final')))
