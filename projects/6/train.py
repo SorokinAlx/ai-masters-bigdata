@@ -8,7 +8,7 @@ print(train.head(5))
 train = train[["label","words_final"]]
 print(train["words_final"].head(5))
 for i in range(100):
-    train[f"words_{i}"]=train["words_final"].apply(lambda x: x['indices'][i])
+    train[f"words_{i}"]=train["words_final"].apply(lambda x: x['size'])
 print(train.head(5))
 log_reg = LogisticRegression()
 model = log_reg.fit(train.iloc[:,2:], train.iloc[:,0])
