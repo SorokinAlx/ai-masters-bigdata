@@ -59,7 +59,7 @@ schema = StructType([
 df = spark.read.json(sys.argv[2], schema=schema)
 
 df = df.withColumn('label_pred', predict(vector_to_array('words_final')))
-df = df.withColumn("id",f.monotonically_increasing_id())
+#df = df.withColumn("id",f.monotonically_increasing_id())
 df = df.fillna({"label_pred": 0.0})
 print(df.select("id", "label_pred").show(10))
 df.select("id", "label_pred").write.mode('overwrite').csv(sys.argv[4], header='false')

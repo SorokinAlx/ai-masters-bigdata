@@ -45,6 +45,7 @@ schema = StructType(fields=[
     StructField("reviewTime", StringType()),
     StructField("reviewerID", StringType()),
     StructField("asin", StringType()),
+    StructField("id", StringType()),
     StructField("reviewerName", StringType()),
     StructField("reviewText", StringType()),
     StructField("summary", StringType()),
