@@ -28,7 +28,7 @@ spark = SparkSession.builder.config(conf=conf).appName("SparkML_hw").getOrCreate
 
 tokenizer = Tokenizer(inputCol="reviewText", outputCol="words")
 stop_words = StopWordsRemover(inputCol="words",outputCol="words_without_stop", stopWords=StopWordsRemover.loadDefaultStopWords("english"))
-hasher = HashingTF(numFeatures=110, binary=True, inputCol="words_without_stop", outputCol="words_hashed")
+hasher = HashingTF(numFeatures=100, binary=True, inputCol="words_without_stop", outputCol="words_hashed")
 assembler = VectorAssembler(inputCols=['words_hashed'], outputCol="words_final")
 
 pipeline = Pipeline(stages=[
@@ -55,5 +55,5 @@ df = spark.read.schema(schema).format("json").load(sys.argv[2]).fillna({"reviewT
 
 mdl = pipeline.fit(df)
 mdl = mdl.transform(df)
-mdl.write.format("json").save(sys.argv[4])
+mdl.write.mode("overwrite").json(sys.argv[4])
 spark.stop()
