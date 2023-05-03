@@ -5,11 +5,19 @@ from joblib import dump
 
 train = pd.read_json(sys.argv[2], lines=True)
 print(train.head(5))
-train = train[["label","words_final"]]
-print(train["words_final"].head(5))
-for i in range(100):
-    train[f"words_{i}"]=train["words_final"].apply(lambda x: x['size'])
-print(train.head(5))
+words = []
+for el in train['words_final']:
+    l = []
+    if len(el['values']) == 100:
+        words.append(el['values'])
+    else:
+        for i in range(100):
+            if i in el['indices']:
+                l.append(el['values'][el['indices'].index(i)])
+            else:
+                l.append(0)
+        words.append(l)
+df = pd.DataFrame(words)
 log_reg = LogisticRegression()
-model = log_reg.fit(train.iloc[:,2:], train.iloc[:,0])
+model = log_reg.fit(df, train["label"])
 dump(model, sys.argv[4])
