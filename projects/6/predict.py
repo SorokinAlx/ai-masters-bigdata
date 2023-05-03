@@ -59,8 +59,7 @@ schema = StructType([
 
 df = spark.read.json(sys.argv[2], schema=schema)
 
-df = df.withColumn('prediction', predict(vector_to_array('words_final')))
+df = df.withColumn('label_pred', predict(vector_to_array('words_final')))
 
-df.select("id", "prediction").write().overwrite().csv(sys.argv[4], header='false')
-
+df.select("id", "label_pred").write.mode('overwrite').csv(sys.argv[4], header='false')
 spark.stop()
