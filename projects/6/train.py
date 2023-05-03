@@ -6,8 +6,9 @@ from joblib import dump
 train = pd.read_json(sys.argv[2], lines=True)
 print(train.head(5))
 train = train[["label","words_final"]]
+print(train["words_final"].head(5))
 for i in range(100):
-    train[f"words_{i}"]=train["words_final"].apply(lambda x: x["indices"][i])
+    train[f"words_{i}"]=train["words_final"].apply(lambda x: x['indices'][i])
 print(train.head(5))
 log_reg = LogisticRegression()
 model = log_reg.fit(train.iloc[:,2:], train.iloc[:,0])
